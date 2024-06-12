@@ -1,0 +1,52 @@
+SELECT TOP (1000) [vin]
+      ,[condition]
+      ,[odometer]
+      ,[color]
+      ,[interior]
+      ,[seller]
+      ,[mmr]
+      ,[sellingprice]
+      ,[saledate]
+  FROM [PortfolioProject].[dbo].[Car_Spec_CSV_Staging]
+
+    SELECT * FROM Car_Spec_CSV_Staging
+
+  --CLEANING DATA FOR COLORS
+  UPDATE Car_Spec_CSV_Staging
+  SET color = ''
+  WHERE ISNUMERIC(color)=1
+
+  SELECT * FROM Car_Spec_CSV_Staging
+  WHERE sellingprice=14300 AND odometer=28
+
+--CLEANING DATA FOR SALEDATE
+UPDATE Car_Spec_CSV_Staging
+SET saledate = ''
+WHERE ISNUMERIC(saledate) = 1
+
+SELECT * FROM Car_Spec_CSV_Staging
+WHERE odometer = 1 and sellingprice = 14050
+
+
+ --Finding vehicle which manufactured in year 2014 with particular model, make and selling price
+  SELECT * FROM Car_Spec_CSV_Staging INNER JOIN 
+  Car_Design_CSV_Staging ON Car_Spec_CSV_Staging.vin = Car_Design_CSV_Staging.vin
+  WHERE year = 2014 AND model = 'Altima' AND  make = 'Nissan' 
+
+ --Count of vehicle manufactured in respective years 
+   SELECT COUNT(Car_Spec_CSV_Staging.vin) AS Car_Manufactured,
+   Car_Design_CSV_Staging.[year]  
+   FROM Car_Spec_CSV_Staging INNER JOIN 
+   Car_Design_CSV_Staging ON Car_Spec_CSV_Staging.vin = Car_Design_CSV_Staging.vin
+   GROUP BY [year]
+   ORDER BY [year]
+   
+  SELECT * FROM Car_Spec_CSV_Staging
+
+  SELECT SUBSTRING(Saledate, 12, 4) Year,* FROM Car_Spec_CSV_Staging;
+
+ 
+
+  
+    
+  
