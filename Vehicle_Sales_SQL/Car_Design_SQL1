@@ -1,0 +1,24 @@
+SELECT TOP (1000) [year]
+      ,[make]
+      ,[model]
+      ,[trim]
+      ,[body]
+      ,[transmission]
+      ,[vin]
+      ,[state]
+  FROM [PortfolioProject].[dbo].[Car_Design_CSV_Staging]
+
+  SELECT * FROM Car_Design_CSV_Staging;
+
+--Cleaning data for State
+UPDATE Car_Design_CSV_Staging
+SET [state] = 
+(CASE 
+      WHEN state LIKE '%[0-9]%'  THEN ''
+      ELSE
+      [state]
+      END
+)
+
+SELECT * FROM Car_Design_CSV_Staging
+WHERE trim ='SE PZEV w/Connectivity' AND body = 'Navitgation'
