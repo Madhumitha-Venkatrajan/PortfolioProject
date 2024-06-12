@@ -45,6 +45,30 @@ WHERE odometer = 1 and sellingprice = 14050
 
   SELECT SUBSTRING(Saledate, 12, 4) Year,* FROM Car_Spec_CSV_Staging;
 
+  --Stored Procedure for GetAll info from both tables
+  GO
+  CREATE PROCEDURE spCar_GetALL
+  as 
+  BEGIN
+  SELECT * FROM Car_Spec_CSV_Staging Car_Spec INNER JOIN Car_Design_CSV_Staging Car_design
+  ON Car_Spec.vin = Car_design.vin
+  END
+
+  EXEC spCar_GetALL
+
+  --Procedure created for Market value(mmr) which is higher than 100000
+  GO
+  CREATE PROCEDURE spMMr(@mmr int)
+  AS
+  BEGIN
+  SET NOCOUNT OFF
+  SELECT * FROM Car_Spec_CSV_Staging INNER JOIN Car_Design_CSV_Staging
+  ON Car_Spec_CSV_Staging.vin = Car_Design_CSV_Staging.vin
+  WHERE mmr>@mmr
+  END
+
+  EXEC spMMr @mmr = '100000' 
+
  
 
   
